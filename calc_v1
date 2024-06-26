@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Telegram Mini App Calculator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #f4f4f4;
+    }
+    #calculator {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      width: 300px;
+    }
+    #calculator input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      font-size: 18px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      margin-bottom: 10px;
+    }
+    #calculator button {
+      width: 22%;
+      padding: 15px;
+      margin: 1%;
+      font-size: 18px;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    #calculator button:hover {
+      background: #0056b3;
+    }
+    #history {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div id="calculator">
+    <input type="text" id="display" readonly>
+    <br>
+    <button onclick="clearDisplay()">C</button>
+    <button onclick="appendCharacter('(')">(</button>
+    <button onclick="appendCharacter(')')">)</button>
+    <button onclick="appendCharacter('/')">/</button>
+    <button onclick="appendCharacter('7')">7</button>
+    <button onclick="appendCharacter('8')">8</button>
+    <button onclick="appendCharacter('9')">9</button>
+    <button onclick="appendCharacter('*')">*</button>
+    <button onclick="appendCharacter('4')">4</button>
+    <button onclick="appendCharacter('5')">5</button>
+    <button onclick="appendCharacter('6')">6</button>
+    <button onclick="appendCharacter('-')">-</button>
+    <button onclick="appendCharacter('1')">1</button>
+    <button onclick="appendCharacter('2')">2</button>
+    <button onclick="appendCharacter('3')">3</button>
+    <button onclick="appendCharacter('+')">+</button>
+    <button onclick="appendCharacter('0')">0</button>
+    <button onclick="appendCharacter('.')">.</button>
+    <button onclick="calculateResult()">=</button>
+    <div id="history"></div>
+  </div>
+
+  <script>
+    // Объект для сохранения истории расчетов
+    let history = [];
+
+    // Функция для очистки дисплея
+    function clearDisplay() {
+      document.getElementById('display').value = '';
+    }
+
+    // Функция для добавления символов на дисплей
+    function appendCharacter(character) {
+      document.getElementById('display').value += character;
+    }
+
+    // Функция для вычисления результата и обновления истории
+    function calculateResult() {
+      let display = document.getElementById('display');
+      try {
+        let result = eval(display.value);
+        display.value = result;
+        history.push(display.value);
+        updateHistory();
+      } catch (e) {
+        display.value = 'Error';
+      }
+    }
+
+    // Функция для обновления истории на экране
+    function updateHistory() {
+      let historyDiv = document.getElementById('history');
+      historyDiv.innerHTML = '<h3>History</h3>';
+      history.forEach((item, index) => {
+        historyDiv.innerHTML += `<p>${index + 1}: ${item}</p>`;
+      });
+    }
+  </script>
+</body>
+</html>
